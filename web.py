@@ -114,7 +114,7 @@ if selected == 'Heart Disease Prediction':
                 st.success(heart_diagnosis)
             except ValueError:
                 st.error('Invalid input. Please enter numeric values.')
-
+                
 if selected == 'Parkinsons Prediction':
     st.title('Parkinson’s Disease Prediction using ML')
     col1, col2, col3, col4, col5 = st.columns(5)
@@ -186,21 +186,30 @@ if selected == 'Parkinsons Prediction':
         PPE = st.text_input('PPE')
 
     parkinsons_diagnosis = ''
+
     if st.button('Parkinson’s Test Result'):
-        # Check if any of the fields are empty
-        if '' in [MDVP_Fo_Hz, MDVP_Fhi_Hz, MDVP_Flo_Hz, MDVP_Jitter_percent, MDVP_Jitter_Abs, MDVP_RAP, MDVP_PPQ,
-                  Jitter_DDP, MDVP_Shimmer, MDVP_Shimmer_dB, Shimmer_APQ3, Shimmer_APQ5, MDVP_APQ, Shimmer_DDA, NHR, HNR, RPDE, DFA, spread1, spread2, D2, PPE]:
+        # List of user inputs (ensure all names match the text inputs above)
+        user_inputs = [fo, fhi, flo, Jitter_percent, Jitter_Abs, RAP, PPQ, DDP, 
+                       Shimmer, Shimmer_dB, APQ3, APQ5, APQ, DDA, NHR, HNR, 
+                       RPDE, DFA, spread1, spread2, D2, PPE]
+
+        # Check if any field is empty
+        if '' in user_inputs:
             st.error('Please fill in all the fields.')
         else:
-            user_input = [MDVP_Fo_Hz, MDVP_Fhi_Hz, MDVP_Flo_Hz, MDVP_Jitter_percent, MDVP_Jitter_Abs, MDVP_RAP, MDVP_PPQ,
-                          Jitter_DDP, MDVP_Shimmer, MDVP_Shimmer_dB, Shimmer_APQ3, Shimmer_APQ5, MDVP_APQ, Shimmer_DDA, NHR, HNR, RPDE, DFA, spread1, spread2, D2, PPE]
             try:
-                user_input = [float(x) for x in user_input]
-                parkinsons_prediction = parkinsons_model.predict([user_input])
+                # Convert inputs to float
+                user_inputs = [float(x) for x in user_inputs]
+
+                # Make prediction
+                parkinsons_prediction = parkinsons_model.predict([user_inputs])
+
                 if parkinsons_prediction[0] == 1:
                     parkinsons_diagnosis = "The person has Parkinson’s disease."
                 else:
                     parkinsons_diagnosis = "The person does not have Parkinson’s disease."
+
                 st.success(parkinsons_diagnosis)
+
             except ValueError:
                 st.error('Invalid input. Please enter numeric values.')

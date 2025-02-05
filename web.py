@@ -5,9 +5,21 @@ from streamlit_option_menu import option_menu
 
 st.set_page_config(page_title='Prediction of Disease Outbreaks', layout='wide', page_icon="🧑‍⚕️")
 
-diabetes_model = pickle.load(open("training models/diabetes_model.sav", "rb"))
-heart_disease_model = pickle.load(open("training models/heart_k-nearest_neighbors_model.sav", "rb"))
-parkinsons_model = pickle.load(open("training models/parkinsons_k-nearest_neighbors_model.sav", 'rb'))
+import os
+import pickle
+
+# Get the working directory of the script
+working_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Define the model paths
+diabetes_model_path = os.path.join(working_dir, "training models", "diabetes_model.sav")
+heart_disease_model_path = os.path.join(working_dir, "training models", "heart_k-nearest_neighbors_model.sav")
+parkinsons_model_path = os.path.join(working_dir, "training models", "parkinsons_k-nearest_neighbors_model.sav")
+
+# Load the saved models
+diabetes_model = pickle.load(open(diabetes_model_path, "rb"))
+heart_disease_model = pickle.load(open(heart_disease_model_path, "rb"))
+parkinsons_model = pickle.load(open(parkinsons_model_path, "rb"))
 
 with st.sidebar:
     selected = option_menu('Prediction of Disease Outbreaks System',
